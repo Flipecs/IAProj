@@ -34,35 +34,17 @@ public class Pather : MonoBehaviour
         while (list.Count > 0) {
             tile = list[0];
             list.RemoveAt(0);
-        // Debug.Log("a");
             values[tile.position.x, tile.position.y].v = true;
             foreach(Tile neigh in map.Neighbours4(tile.position)) {
-        // Debug.Log("b");
                 tmph = (end - neigh.position).sqrMagnitude;
                 tmpg = values[tile.position.x, tile.position.y].g + neigh.data.weight * neigh.data.weight;
                 tmpf = tmph + tmpg;
                 if (!values[neigh.position.x, neigh.position.y].v && tmph+tmpg < values[neigh.position.x, neigh.position.y].f) {
-        // Debug.Log("c1");
                     values[neigh.position.x, neigh.position.y] = (tmpf, tmpg , tmph, tile.position, false);
-        // Debug.Log("c2");
-                    // Debug.Log(("index", FindIndex(list, values, tmpf)));
-        // Debug.Log("c3");
                     list.Insert(FindIndex(list, values, tmpf), neigh);
-        // Debug.Log("d");
                 }
-        // Debug.Log("e");
             }
-        // Debug.Log(("size", list.Count));
         }
-        // string text = "";
-        // for (int i = 0; i < map.size.x; i++) {
-        //     for (int j = 0; j < map.size.y; j++) {
-        //         text += "(" + values[i,j].p.x + ", " + values[i,j].p.y + ", " + values[i,j].g + ", " + values[i,j].h + ") , ";
-        //     }
-        //     text += '\n';
-        // } 
-        // Debug.Log(text);
-
         List<Vector2Int> path = new List<Vector2Int>();
         if (values[end.x, end.y].p.x != -1) {
             path.Add(end);
@@ -71,28 +53,19 @@ public class Pather : MonoBehaviour
                 path.Insert(0, values[tile.position.x, tile.position.y].p);
                 tile = map[values[tile.position.x, tile.position.y].p.x, values[tile.position.x, tile.position.y].p.y];
             }
-            // string text2 = "";
-            // foreach (Vector2Int v in path) text2 += "(" + v.x + ", " + v.y + "), ";
-            // Debug.Log(text2);
         }
         return path;
     }
 
     private int FindIndex(List<Tile> list, (int f, int g, int h, Vector2Int p, bool v)[,] values, int f) => FindIndex(list, values, f, 0, list.Count);
     private int FindIndex(List<Tile> list, (int f, int g, int h, Vector2Int p, bool v)[,] values, int f, int i, int j) {
-        // Debug.Log("aa");
         if (i>=j) return i;
-        // Debug.Log("ab");
         int mid = (i+j)>>1;
-        // Debug.Log("ac");
         Vector2Int pos = list[mid].position;
-        // Debug.Log(("ad",i,j,pos.x, pos.y));
         if (f >= values[pos.x, pos.y].f) {
-        // Debug.Log("ae");
             return FindIndex(list, values, f, mid+1, j);
         }
         else {
-        // Debug.Log("ag");
             return FindIndex(list, values, f, i, mid-1);
         }
     }
