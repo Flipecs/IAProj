@@ -36,7 +36,7 @@ public class Pather : MonoBehaviour
             list.RemoveAt(0);
         // Debug.Log("a");
             values[tile.position.x, tile.position.y].v = true;
-            foreach(Tile neigh in map.Neighbours8(tile.position)) {
+            foreach(Tile neigh in map.Neighbours4(tile.position)) {
         // Debug.Log("b");
                 tmph = (end - neigh.position).sqrMagnitude;
                 tmpg = values[tile.position.x, tile.position.y].g + neigh.data.weight * neigh.data.weight;
@@ -57,7 +57,7 @@ public class Pather : MonoBehaviour
         // string text = "";
         // for (int i = 0; i < map.size.x; i++) {
         //     for (int j = 0; j < map.size.y; j++) {
-        //         text += "(" + values[i,j].p.x + ", " + values[i,j].p.y + ") , ";
+        //         text += "(" + values[i,j].p.x + ", " + values[i,j].p.y + ", " + values[i,j].g + ", " + values[i,j].h + ") , ";
         //     }
         //     text += '\n';
         // } 
@@ -87,7 +87,7 @@ public class Pather : MonoBehaviour
         // Debug.Log("ac");
         Vector2Int pos = list[mid].position;
         // Debug.Log(("ad",i,j,pos.x, pos.y));
-        if (f > values[pos.x, pos.y].f) {
+        if (f >= values[pos.x, pos.y].f) {
         // Debug.Log("ae");
             return FindIndex(list, values, f, mid+1, j);
         }

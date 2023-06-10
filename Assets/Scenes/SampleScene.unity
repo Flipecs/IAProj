@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 340817875}
   - component: {fileID: 340817874}
   - component: {fileID: 340817876}
+  - component: {fileID: 340817877}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -189,13 +190,34 @@ MonoBehaviour:
   - name: floor
     walkable: 1
     weight: 1
-    color: {r: 0.5943396, g: 0.44014338, b: 0.26633143, a: 1}
+    color: {r: 1, g: 1, b: 1, a: 1}
   - name: grass
     walkable: 1
     weight: 3
-    color: {r: 0.24995552, g: 0.38679248, b: 0.25133023, a: 1}
+    color: {r: 1, g: 0.75, b: 0.78061223, a: 1}
+  - name: lake
+    walkable: 1
+    weight: 6
+    color: {r: 1, g: 0.3820755, b: 0.40479353, a: 1}
+  - name: toxic
+    walkable: 1
+    weight: 9
+    color: {r: 0.9150943, g: 0.11654504, b: 0.20221475, a: 1}
   tilePrefab: {fileID: 3497797076187608715, guid: ed1ab5d6ef532ad4495feb04ae62bad0, type: 3}
-  size: {x: 15, y: 15}
+  size: {x: 20, y: 15}
+--- !u!114 &340817877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340817873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13eaf1af325cf5468907f828e962db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlight: {fileID: 8197413550556451676, guid: 77f961a28f38af046b7b9de0a8886576, type: 3}
 --- !u!1 &487084043
 GameObject:
   m_ObjectHideFlags: 0

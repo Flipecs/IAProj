@@ -62,18 +62,18 @@ public class Map : MonoBehaviour
         bool yl = y < size.y-1;
         bool xl = x < size.x-1;
 
-        if (xg && tileMap[x-1,y].data.walkable) {
-            neighbours.Add(tileMap[x-1,y]);
+        if (yg && tileMap[x,y-1].data.walkable) neighbours.Add(tileMap[x,y-1]);
+        if (yl && tileMap[x,y+1].data.walkable) neighbours.Add(tileMap[x,y+1]);
+        if (xg) {
+            if (tileMap[x-1,y].data.walkable) neighbours.Add(tileMap[x-1,y]);
             if (yg && tileMap[x-1,y-1].data.walkable) neighbours.Add(tileMap[x-1,y-1]);
             if (yl && tileMap[x-1,y+1].data.walkable) neighbours.Add(tileMap[x-1,y+1]);
         }
-        if (xl && tileMap[x+1,y].data.walkable) {
-            neighbours.Add(tileMap[x+1,y]);
+        if (xl) {
+            if (tileMap[x+1,y].data.walkable) neighbours.Add(tileMap[x+1,y]);
             if (yg && tileMap[x+1,y-1].data.walkable) neighbours.Add(tileMap[x+1,y-1]);
             if (yl && tileMap[x+1,y+1].data.walkable) neighbours.Add(tileMap[x+1,y+1]);
         }
-        if (yg && tileMap[x,y-1].data.walkable) neighbours.Add(tileMap[x,y-1]);
-        if (yl && tileMap[x,y+1].data.walkable) neighbours.Add(tileMap[x,y+1]);
         
         return neighbours;
     }
