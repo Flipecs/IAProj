@@ -14,8 +14,10 @@ public class Map : MonoBehaviour
     Dictionary<string,TileData> tiles;
     Grid grid;
 
+    public Tile this[int x, int y] { get => tileMap[x,y]; }
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         grid = GetComponent<Grid>();
         tileMap = new Tile[size.x,size.y];
@@ -42,15 +44,17 @@ public class Map : MonoBehaviour
         }
     }
 
+    public List<Tile> Neighbours4(Vector2Int point) => Neighbours4(point.x, point.y);
     public List<Tile> Neighbours4(int x, int y) {
         List<Tile> neighbours = new List<Tile>();
-        if (x > 0      && tileMap[x-1,y].data.walkable) neighbours.Add(tileMap[x-1,y]);
-        if (x < size.x && tileMap[x+1,y].data.walkable) neighbours.Add(tileMap[x+1,y]);
-        if (y > 0      && tileMap[x,y-1].data.walkable) neighbours.Add(tileMap[x,y-1]);
-        if (y < size.y && tileMap[x,y+1].data.walkable) neighbours.Add(tileMap[x,y+1]);
+        if (x > 0        && tileMap[x-1,y].data.walkable) neighbours.Add(tileMap[x-1,y]);
+        if (x < size.x-1 && tileMap[x+1,y].data.walkable) neighbours.Add(tileMap[x+1,y]);
+        if (y > 0        && tileMap[x,y-1].data.walkable) neighbours.Add(tileMap[x,y-1]);
+        if (y < size.y-1 && tileMap[x,y+1].data.walkable) neighbours.Add(tileMap[x,y+1]);
         return neighbours;
     }
     
+    public List<Tile> Neighbours8(Vector2Int point) => Neighbours8(point.x, point.y);
     public List<Tile> Neighbours8(int x, int y) {
         List<Tile> neighbours = new List<Tile>();
         bool xg = x > 0;
