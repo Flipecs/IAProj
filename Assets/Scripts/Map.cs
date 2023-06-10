@@ -12,7 +12,7 @@ public class Map : MonoBehaviour
     public Vector2Int size;
     Tile[,] tileMap;
     Dictionary<string,TileData> tiles;
-    Grid grid;
+    public Grid grid { get; private set; }
 
     public Tile this[int x, int y] { get => tileMap[x,y]; }
 
@@ -59,8 +59,8 @@ public class Map : MonoBehaviour
         List<Tile> neighbours = new List<Tile>();
         bool xg = x > 0;
         bool yg = y > 0;
-        bool yl = y < size.y;
-        bool xl = x < size.x;
+        bool yl = y < size.y-1;
+        bool xl = x < size.x-1;
 
         if (xg && tileMap[x-1,y].data.walkable) {
             neighbours.Add(tileMap[x-1,y]);

@@ -5,17 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(Map))]
 public class Pather : MonoBehaviour
 {
+    public Transform highlight;
     Map map;
     Vector2Int start, end;
 
     public void Start() {
         map = GetComponent<Map>();
         start = Vector2Int.zero;
-        end = map.size;
-        AStar();
+        end = map.size - Vector2Int.one;
+        foreach (Vector2Int p in AStar()) {
+            Instantiate(highlight, map.grid.GetCellCenterLocal(new Vector3Int(p.x, p.y, 1)), Quaternion.identity);
+        }
     }
 
-    private void AStar() {
+    private List<Vector2Int> AStar() {
         (int f, int g, int h, Vector2Int p,  bool v)[,] values = new (int,int,int,Vector2Int,bool)[map.size.x, map.size.y];
         for (int i = 0; i < map.size.x; i++) {
             for (int j = 0; j < map.size.y; j++) {
@@ -33,7 +36,7 @@ public class Pather : MonoBehaviour
             list.RemoveAt(0);
         // Debug.Log("a");
             values[tile.position.x, tile.position.y].v = true;
-            foreach(Tile neigh in map.Neighbours4(tile.position)) {
+            foreach(Tile neigh in map.Neighbours8(tile.position)) {
         // Debug.Log("b");
                 tmph = (end - neigh.position).sqrMagnitude;
                 tmpg = values[tile.position.x, tile.position.y].g + neigh.data.weight * neigh.data.weight;
@@ -42,23 +45,37 @@ public class Pather : MonoBehaviour
         // Debug.Log("c1");
                     values[neigh.position.x, neigh.position.y] = (tmpf, tmpg , tmph, tile.position, false);
         // Debug.Log("c2");
-                    Debug.Log(("index", FindIndex(list, values, tmpf)));
+                    // Debug.Log(("index", FindIndex(list, values, tmpf)));
         // Debug.Log("c3");
                     list.Insert(FindIndex(list, values, tmpf), neigh);
         // Debug.Log("d");
                 }
         // Debug.Log("e");
             }
-        Debug.Log(("size", list.Count));
+        // Debug.Log(("size", list.Count));
         }
-        string text = "";
-        for (int i = 0; i < map.size.x; i++) {
-            for (int j = 0; j < map.size.y; j++) {
-                text += "(" + values[i,j].p.x + ", " + values[i,j].p.y + ") , ";
+        // string text = "";
+        // for (int i = 0; i < map.size.x; i++) {
+        //     for (int j = 0; j < map.size.y; j++) {
+        //         text += "(" + values[i,j].p.x + ", " + values[i,j].p.y + ") , ";
+        //     }
+        //     text += '\n';
+        // } 
+        // Debug.Log(text);
+
+        List<Vector2Int> path = new List<Vector2Int>();
+        if (values[end.x, end.y].p.x != -1) {
+            path.Add(end);
+            tile = map[end.x, end.y];
+            while (values[tile.position.x, tile.position.y].p != tile.position) {
+                path.Insert(0, values[tile.position.x, tile.position.y].p);
+                tile = map[values[tile.position.x, tile.position.y].p.x, values[tile.position.x, tile.position.y].p.y];
             }
-            text += '\n';
-        } 
-        Debug.Log(text);
+            // string text2 = "";
+            // foreach (Vector2Int v in path) text2 += "(" + v.x + ", " + v.y + "), ";
+            // Debug.Log(text2);
+        }
+        return path;
     }
 
     private int FindIndex(List<Tile> list, (int f, int g, int h, Vector2Int p, bool v)[,] values, int f) => FindIndex(list, values, f, 0, list.Count);
@@ -70,7 +87,7 @@ public class Pather : MonoBehaviour
         // Debug.Log("ac");
         Vector2Int pos = list[mid].position;
         // Debug.Log(("ad",i,j,pos.x, pos.y));
-        if (f < values[pos.x, pos.y].f) {
+        if (f > values[pos.x, pos.y].f) {
         // Debug.Log("ae");
             return FindIndex(list, values, f, mid+1, j);
         }
