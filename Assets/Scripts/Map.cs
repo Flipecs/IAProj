@@ -42,8 +42,37 @@ public class Map : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        
+    public List<Tile> Neighbours4(int x, int y) {
+        List<Tile> neighbours = new List<Tile>();
+        if (x > 0      && tileMap[x-1,y].data.walkable) neighbours.Add(tileMap[x-1,y]);
+        if (x < size.x && tileMap[x+1,y].data.walkable) neighbours.Add(tileMap[x+1,y]);
+        if (y > 0      && tileMap[x,y-1].data.walkable) neighbours.Add(tileMap[x,y-1]);
+        if (y < size.y && tileMap[x,y+1].data.walkable) neighbours.Add(tileMap[x,y+1]);
+        return neighbours;
     }
+    
+    public List<Tile> Neighbours8(int x, int y) {
+        List<Tile> neighbours = new List<Tile>();
+        bool xg = x > 0;
+        bool yg = y > 0;
+        bool yl = y < size.y;
+        bool xl = x < size.x;
+
+        if (xg && tileMap[x-1,y].data.walkable) {
+            neighbours.Add(tileMap[x-1,y]);
+            if (yg && tileMap[x-1,y-1].data.walkable) neighbours.Add(tileMap[x-1,y-1]);
+            if (yl && tileMap[x-1,y+1].data.walkable) neighbours.Add(tileMap[x-1,y+1]);
+        }
+        if (xl && tileMap[x+1,y].data.walkable) {
+            neighbours.Add(tileMap[x+1,y]);
+            if (yg && tileMap[x+1,y-1].data.walkable) neighbours.Add(tileMap[x+1,y-1]);
+            if (yl && tileMap[x+1,y+1].data.walkable) neighbours.Add(tileMap[x+1,y+1]);
+        }
+        if (yg && tileMap[x,y-1].data.walkable) neighbours.Add(tileMap[x,y-1]);
+        if (yl && tileMap[x,y+1].data.walkable) neighbours.Add(tileMap[x,y+1]);
+        
+        return neighbours;
+    }
+
+
 }

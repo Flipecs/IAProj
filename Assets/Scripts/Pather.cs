@@ -6,8 +6,10 @@ using UnityEngine;
 public class Pather : MonoBehaviour
 {
     Map map;
+    Vector2Int start, end;
 
     public void Start() {
         map = GetComponent<Map>();
     }
+
 }
