@@ -6,6 +6,7 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
     public string basename;
+    public Transform tileContainer;
     public TileData[] tileLib;
     public Tile tilePrefab;
 
@@ -36,7 +37,7 @@ public class Map : MonoBehaviour
 
         for (int i = 0; i < size.x; i++) {
             for (int j = 0; j < size.y; j++) {
-                tileMap[i,j] = Instantiate(tilePrefab, grid.GetCellCenterLocal(new Vector3Int(i,j,0)), Quaternion.identity, this.transform);
+                tileMap[i,j] = Instantiate(tilePrefab, grid.GetCellCenterLocal(new Vector3Int(i,j,0)), Quaternion.identity, tileContainer);
                 tileMap[i,j].position = new Vector2Int(i,j);
                 tileMap[i,j].data = tiles[keys[rng.Next(keys.Length)]];
                 tileMap[i,j].gameObject.SetActive(true);
@@ -47,10 +48,10 @@ public class Map : MonoBehaviour
     public List<Tile> Neighbours4(Vector2Int point) => Neighbours4(point.x, point.y);
     public List<Tile> Neighbours4(int x, int y) {
         List<Tile> neighbours = new List<Tile>();
-        if (x > 0        && tileMap[x-1,y].data.walkable) neighbours.Add(tileMap[x-1,y]);
-        if (x < size.x-1 && tileMap[x+1,y].data.walkable) neighbours.Add(tileMap[x+1,y]);
-        if (y > 0        && tileMap[x,y-1].data.walkable) neighbours.Add(tileMap[x,y-1]);
-        if (y < size.y-1 && tileMap[x,y+1].data.walkable) neighbours.Add(tileMap[x,y+1]);
+        if (x > 0        && tileMap[x-1,y].walkable) neighbours.Add(tileMap[x-1,y]);
+        if (x < size.x-1 && tileMap[x+1,y].walkable) neighbours.Add(tileMap[x+1,y]);
+        if (y > 0        && tileMap[x,y-1].walkable) neighbours.Add(tileMap[x,y-1]);
+        if (y < size.y-1 && tileMap[x,y+1].walkable) neighbours.Add(tileMap[x,y+1]);
         return neighbours;
     }
     
@@ -62,21 +63,20 @@ public class Map : MonoBehaviour
         bool yl = y < size.y-1;
         bool xl = x < size.x-1;
 
-        if (yg && tileMap[x,y-1].data.walkable) neighbours.Add(tileMap[x,y-1]);
-        if (yl && tileMap[x,y+1].data.walkable) neighbours.Add(tileMap[x,y+1]);
+        if (yg && tileMap[x,y-1].walkable) neighbours.Add(tileMap[x,y-1]);
+        if (yl && tileMap[x,y+1].walkable) neighbours.Add(tileMap[x,y+1]);
         if (xg) {
-            if (tileMap[x-1,y].data.walkable) neighbours.Add(tileMap[x-1,y]);
-            if (yg && tileMap[x-1,y-1].data.walkable) neighbours.Add(tileMap[x-1,y-1]);
-            if (yl && tileMap[x-1,y+1].data.walkable) neighbours.Add(tileMap[x-1,y+1]);
+            if (tileMap[x-1,y].walkable) neighbours.Add(tileMap[x-1,y]);
+            if (yg && tileMap[x-1,y-1].walkable) neighbours.Add(tileMap[x-1,y-1]);
+            if (yl && tileMap[x-1,y+1].walkable) neighbours.Add(tileMap[x-1,y+1]);
         }
         if (xl) {
-            if (tileMap[x+1,y].data.walkable) neighbours.Add(tileMap[x+1,y]);
-            if (yg && tileMap[x+1,y-1].data.walkable) neighbours.Add(tileMap[x+1,y-1]);
-            if (yl && tileMap[x+1,y+1].data.walkable) neighbours.Add(tileMap[x+1,y+1]);
+            if (tileMap[x+1,y].walkable) neighbours.Add(tileMap[x+1,y]);
+            if (yg && tileMap[x+1,y-1].walkable) neighbours.Add(tileMap[x+1,y-1]);
+            if (yl && tileMap[x+1,y+1].walkable) neighbours.Add(tileMap[x+1,y+1]);
         }
         
         return neighbours;
     }
-
 
 }

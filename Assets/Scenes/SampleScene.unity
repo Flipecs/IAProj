@@ -123,6 +123,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &57520976
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 57520977}
+  m_Layer: 0
+  m_Name: Highlights
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &57520977
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57520976}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 340817875}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &340817873
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +166,7 @@ GameObject:
   - component: {fileID: 340817874}
   - component: {fileID: 340817876}
   - component: {fileID: 340817877}
+  - component: {fileID: 340817878}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -165,7 +197,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1299420461}
+  - {fileID: 57520977}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -182,6 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basename: 
+  tileContainer: {fileID: 1299420461}
   tileLib:
   - name: wall
     walkable: 0
@@ -194,15 +229,15 @@ MonoBehaviour:
   - name: grass
     walkable: 1
     weight: 3
-    color: {r: 1, g: 0.75, b: 0.78061223, a: 1}
+    color: {r: 1, g: 0.7050429, b: 0.6933962, a: 1}
   - name: lake
     walkable: 1
     weight: 6
-    color: {r: 1, g: 0.3820755, b: 0.40479353, a: 1}
+    color: {r: 1, g: 0.43922615, b: 0.41037738, a: 1}
   - name: toxic
     walkable: 1
     weight: 9
-    color: {r: 0.9150943, g: 0.11654504, b: 0.20221475, a: 1}
+    color: {r: 1, g: 0.018810915, b: 0, a: 1}
   tilePrefab: {fileID: 3497797076187608715, guid: ed1ab5d6ef532ad4495feb04ae62bad0, type: 3}
   size: {x: 20, y: 15}
 --- !u!114 &340817877
@@ -217,7 +252,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f13eaf1af325cf5468907f828e962db8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &340817878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340817873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbdea4484e8f3449bd5d923d2af9de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 519420031}
   highlight: {fileID: 8197413550556451676, guid: 77f961a28f38af046b7b9de0a8886576, type: 3}
+  highlightContainer: {fileID: 57520977}
 --- !u!1 &487084043
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,6 +449,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1299420460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1299420461}
+  m_Layer: 0
+  m_Name: MapTiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1299420461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299420460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 340817875}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1943284656
