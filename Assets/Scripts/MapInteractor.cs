@@ -7,6 +7,8 @@ public class MapInteractor : MonoBehaviour
 {
     public new Camera camera;
     public Transform highlight;
+    public Transform startHighlight;
+    public Transform endHighlight;
     public Transform highlightContainer;
     private Map map;
     private Pather pather;
@@ -18,7 +20,9 @@ public class MapInteractor : MonoBehaviour
         map = GetComponent<Map>();
 
         start = Vector2Int.zero;
+        startHighlight = Instantiate(startHighlight, map.grid.GetCellCenterLocal(new Vector3Int(start.x, start.y, 1)), Quaternion.identity, this.transform);
         end = map.size - Vector2Int.one;
+        endHighlight = Instantiate(endHighlight, map.grid.GetCellCenterLocal(new Vector3Int(end.x, end.y, 1)), Quaternion.identity, this.transform);
     }
 
     public void Update() {
@@ -37,6 +41,7 @@ public class MapInteractor : MonoBehaviour
                 if (t != null) {
             Debug.Log("c1");
                     start = t.position;
+                    startHighlight.position = map.grid.GetCellCenterLocal(new Vector3Int(t.position.x, t.position.y, 1));
                     DrawPath();
                 }
             }
@@ -49,6 +54,7 @@ public class MapInteractor : MonoBehaviour
                 Tile t = hit.collider.transform.GetComponent<Tile>();
                 if (t != null) {
                     end = t.position;
+                    endHighlight.position = map.grid.GetCellCenterLocal(new Vector3Int(t.position.x, t.position.y, 1));;
                     DrawPath();
                 }
             }
@@ -63,8 +69,9 @@ public class MapInteractor : MonoBehaviour
 
     private void DrawPath() {
         ClearHighlight();
-        foreach (Vector2Int p in pather.FindPath(start, end)) {
-            Instantiate(highlight, map.grid.GetCellCenterLocal(new Vector3Int(p.x, p.y, 1)), Quaternion.identity, highlightContainer);
+        List<Vector2Int> path = pather.FindPath(start, end);
+        for (int i = 1; i < path.Count -1; i++) {
+            Instantiate(highlight, map.grid.GetCellCenterLocal(new Vector3Int(path[i].x, path[i].y, 1)), Quaternion.identity, highlightContainer);
         }
     }
 }
